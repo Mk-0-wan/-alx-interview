@@ -1,6 +1,5 @@
 #!/usr/bin/python3
 """solving the pascal triangle"""
-import sys
 
 
 def pascal_triangle(n):
