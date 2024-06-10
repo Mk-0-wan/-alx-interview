@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-
+"""LockBoxes Algorithm"""
 from typing import List
 
 
