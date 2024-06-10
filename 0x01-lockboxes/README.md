@@ -42,7 +42,7 @@ Here is the detailed pseudocode:
 
 1. Define the function `canUnlockAll(boxes)`.
 2. Initialize a set `unlocked` and add the first box (index 0) to it.
-3. Initialize a list `to_explore` with the keys found in the first box.
+3. Initialize a set `to_explore` with the keys found in the first box.
 4. While there are items in `to_explore`:
     - Pop a key from `to_explore`.
     - If this key corresponds to a box that has not been unlocked:
@@ -53,32 +53,28 @@ Here is the detailed pseudocode:
 
 Here is the pseudocode in detail:
 
-```plaintext
+```python3
+#pseudocode
 def canUnlockAll(boxes):
     # Step 1: Initialize the unlocked set with the first box
     unlocked = set()
     unlocked.add(0)
 
-    # Step 2: Initialize the to_explore list with the keys in the first box
-    to_explore = list(boxes[0])
+    # Step 2: Initialize the to_explore set with the keys in the first box ( this is to avoid repettion and only have O(1) )
+    to_explore = set(boxes[0])
 
     # Step 3: While there are boxes to explore
     while to_explore:
-        # Pop a key from the to_explore list
+        # Pop a key from the to_explore set
         key = to_explore.pop()
 
-        # If the box corresponding to the key is not yet unlocked
-        if key not in unlocked:
-            # Mark it as unlocked
+        # ensure we are not outof bounds of the list and also appending correct keys only
+        if key not in unlocked and key < len(boxes):
             unlocked.add(key)
-
-            # Add the keys from this box to the to_explore list
-            for new_key in boxes[key]:
-                if new_key not in unlocked:
-                    to_explore.append(new_key)
+            to_explore.update(key)
 
     # Step 4: Check if all boxes are unlocked
     return len(unlocked) == len(boxes)
 ```
 
-By following these steps, you will systematically determine whether all boxes can be unlocked. This method ensures that you explore all possible keys and keep track of the unlocked boxes efficiently.
+By following these steps, you will systematically determine whether all boxes can be unlocked. This method ensures that you explore all possible keys and keep track of the unlocked boxes efficiently even with large datasets.
