@@ -10,16 +10,14 @@ def canUnlockAll(boxes: List[int]) -> bool:
     # initialize it to zero to hold the index of the first elem
     unlocked.add(0)
     # get the first unlocked box
-    to_explore = list(boxes[0])
+    to_explore = set(boxes[0])
 
     while to_explore:
         # to move on to the index of the next unlocked box
         key = to_explore.pop()
-        unlocked.add(key)
         # iterate over a box with more than one key
-        for new_key in boxes[key]:
-            # move to the box of the key found
-            if new_key not in unlocked:
-                to_explore.append(new_key)
+        if key not in unlocked and key < len(boxes):
+            unlocked.add(key)
+            to_explore.update(boxes[key])
 
     return len(unlocked) == len(boxes)
