@@ -5,7 +5,7 @@ import collections  # faster dictionary creation
 import operator  # for faster item retrival from dict
 
 
-def parse_input(line) -> tuple:
+def parse_input(line):
     """Parses the inputs and return the status codes
     file size
     Args:
@@ -26,7 +26,7 @@ def parse_input(line) -> tuple:
         return None
 
 
-def printer(total_size, status_codes_counter) -> None:
+def printer(total_size, status_codes_counter):
     """prints the required format to stdout
     Args:
         total_size (int): total value of all the first ten status code
