@@ -13,7 +13,7 @@ interval = -1
 
 
 def handler(signum, frame):
-    print(signal.Signals(signum).name)
+    _ = signal.Signals(signum).name
     _ = frame
     printer(file_size, stats_dct)
     sys.exit()
