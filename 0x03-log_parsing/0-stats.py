@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-
+"""Where is the comment"""
 import sys
 import signal
 from collections import Counter
