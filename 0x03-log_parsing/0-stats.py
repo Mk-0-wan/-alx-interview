@@ -46,7 +46,7 @@ if __name__ == "__main__":
     total_size = 0
     n = -1
     try:
-        while (line := input()):
+        while (line:= input()):
             try:
                 try:
                     tuple_res = parse_input(line)
