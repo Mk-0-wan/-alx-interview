@@ -39,23 +39,17 @@ def printer(total_size: int, status_codes_counter: Mapping[int, int]) -> bool:
 
 
 if __name__ == '__main__':
-    try:
-        while (logs := input()):
-            try:
-                try:
-                    idx = logs.rfind('"')
-                    data = logs[idx + 1:].lstrip(" ").split(" ")
-                    file_size += int(data[1])
-                    stats_dct.update([int(data[0])])
-                    interval += 1
-                except (ValueError, TypeError):
-                    continue
-                # print(f"{stats_dct} -> {len(stats_dct)}")
-                if interval % 10 == 0:
-                    printer(file_size, stats_dct)
-            except _:
-                exit()
-        if n % 10 != 0:
+    while (logs := input()):
+        try:
+            idx = logs.rfind('"')
+            data = logs[idx + 1:].lstrip(" ").split(" ")
+            file_size += int(data[1])
+            stats_dct.update([int(data[0])])
+            interval += 1
+        except (ValueError, TypeError):
+            continue
+        # print(f"{stats_dct} -> {len(stats_dct)}")
+        if interval % 10 == 0:
             printer(file_size, stats_dct)
-    except _:
-        exit()
+    if n % 10 != 0:
+        printer(file_size, stats_dct)
