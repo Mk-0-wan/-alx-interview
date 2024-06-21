@@ -1,32 +1,29 @@
 #!/usr/bin/python3
-"""Simple Status Code logger written in python"""
-import re  # pattern finding
-import collections  # faster dictionary creation
-import operator  # for faster item retrival from dict
+
+import sys
+import signal
+from collections import Counter
+import operator
+from typing import Mapping
+
+# Initialize global variables
+stats_dct = Counter()
+file_size = 0
+interval = -1
 
 
-def parse_input(line):
-    """Parses the inputs and return the status codes
-    file size
-    Args:
-        line (str): data from the standard input
-    Return:
-        returns the file size and the status code inside
-        the line data from stdinput
-    """
-    pattern = re.compile(
-            r'(\S+)\s*-\s*\[(.*?)\] "GET /projects/260 HTTP/1.1" (\S+) (\d+)'
-    )
-    match = pattern.match(line)
-
-    if match:
-        ip_address, date, status_code, file_size = match.groups()
-        return file_size, status_code
-    else:
-        return None
+def handler(signum, frame):
+    print(signal.Signals(signum).name)
+    _ = frame
+    printer(file_size, stats_dct)
+    sys.exit()
 
 
-def printer(total_size, status_codes_counter):
+signal.signal(signal.SIGINT, handler)
+signal.signal(signal.SIGQUIT, handler)
+
+
+def printer(total_size: int, status_codes_counter: Mapping[int, int]) -> bool:
     """prints the required format to stdout
     Args:
         total_size (int): total value of all the first ten status code
@@ -38,28 +35,20 @@ def printer(total_size, status_codes_counter):
     print("File size: {}".format(total_size))
     for code, count in status_totals:
         print("{}: {}".format(code, count))
+    return (True)
 
 
-# Entry point
-if __name__ == "__main__":
-    status_codes_counter = collections.Counter()
-    total_size = 0
-    n = -1
-    try:
-        while (line := input()):
-            try:
-                try:
-                    tuple_res = parse_input(line)
-                    total_size += int(tuple_res[0])
-                    status_codes_counter.update([int(tuple_res[1])])
-                    n += 1
-                except (ValueError, TypeError):
-                    continue
-                if (n + 1) % 10 == 0:
-                    printer(total_size, status_codes_counter)
-            except KeyboardInterrupt:
-                printer(total_size, status_codes_counter)
-        if (n) % 10 != 0:
-            printer(total_size, status_codes_counter)
-    except (EOFError, KeyboardInterrupt):
-        printer(total_size, status_codes_counter)
+if __name__ == '__main__':
+    while True:
+        try:
+            logs = input()
+            idx = logs.rfind('"')
+            data = logs[idx + 1:].lstrip(" ").split(" ")
+            file_size += int(data[1])
+            stats_dct.update([int(data[0])])
+            interval += 1
+        except (ValueError, TypeError):
+            continue
+        # print(f"{stats_dct} -> {len(stats_dct)}")
+        if interval % 10 == 0:
+            printer(file_size, stats_dct)
