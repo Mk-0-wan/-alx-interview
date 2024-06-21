@@ -54,8 +54,8 @@ if __name__ == '__main__':
                 if interval % 10 == 0:
                     printer(file_size, stats_dct)
             except _:
-                pass
+                exit()
         if n % 10 != 0:
             printer(file_size, stats_dct)
     except _:
-        pass
+        exit()
