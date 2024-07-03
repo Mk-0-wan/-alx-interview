@@ -9,8 +9,11 @@ def validUTF8(data):
     INVALID = 7
     ERROR = 8
     WRONG_BYTE_LENGTH = 5
-    iterable = iter(data)
+    new_data = []
 
+    if data[0] > 255:
+        new_data = decode_utf8(data)
+    iterable = iter(new_data)
     for idx in iterable:
         leading_one_bits = byte_array_count(idx)
         if leading_one_bits in [
@@ -90,5 +93,10 @@ def byte_array_count(binary_data):
     return BIT_FIELD
 
 
-if __name__ == "__main__":
-    print(validUTF8([467, 133, 108]))
+def decode_utf8(data):
+    """decodes data to valid Utf8 for digis out of range"""
+    new_data = [
+            val % 256
+            for val in data
+            ]
+    return new_data
