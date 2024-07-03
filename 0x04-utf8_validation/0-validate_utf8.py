@@ -8,11 +8,17 @@ def validUTF8(data):
     NOT_VALID = 1
     INVALID = 7
     ERROR = 8
+    WRONG_BYTE_LENGTH = 5
     iterable = iter(data)
 
     for idx in iterable:
         leading_one_bits = byte_array_count(idx)
-        if leading_one_bits in [NOT_VALID, INVALID, ERROR]:
+        if leading_one_bits in [
+                WRONG_BYTE_LENGTH,
+                NOT_VALID,
+                INVALID,
+                ERROR
+                ]:
             return False
         for _ in range(leading_one_bits - 1):
             nxt_iter = next(iterable, None)
@@ -82,3 +88,7 @@ def byte_array_count(binary_data):
         if binary_data >> (7 - i) == mask >> (7 - i) & ~1:
             return i
     return BIT_FIELD
+
+
+if __name__ == "__main__":
+    print(validUTF8([467, 133, 108]))
