@@ -100,5 +100,3 @@ def decode_utf8(data):
             for val in data
             ]
     return new_data
-
-print(validUTF8([]))
