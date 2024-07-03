@@ -9,11 +9,11 @@ def validUTF8(data):
     INVALID = 7
     ERROR = 8
     WRONG_BYTE_LENGTH = 5
-    new_data = []
 
-    if data[0] > 255:
-        new_data = decode_utf8(data)
-    iterable = iter(new_data)
+    if data[0] >= 256:
+        data = decode_utf8(data)
+
+    iterable = iter(data)
     for idx in iterable:
         leading_one_bits = byte_array_count(idx)
         if leading_one_bits in [
