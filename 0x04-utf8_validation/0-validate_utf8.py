@@ -10,7 +10,7 @@ def validUTF8(data):
     ERROR = 8
     WRONG_BYTE_LENGTH = 5
 
-    if data[0] >= 256:
+    if data is not None and data[0] >= 256:
         data = decode_utf8(data)
 
     iterable = iter(data)
