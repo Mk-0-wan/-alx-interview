@@ -1,30 +1,25 @@
-#!/usr/bin/python3
+#!/usr/bin/env python3
 """Nqueens"""
 import sys
 
 
 def is_safe(board, row, col, N):
-    """check"""
+    """checking"""
     # Check if there's a queen in the same column up to the current row
     for i in range(row):
-        if board[i][col] == 'Q':
+        if board[i] == col:
             return False
 
-    # Check upper left diagonal
-    for i, j in zip(range(row-1, -1, -1), range(col-1, -1, -1)):
-        if board[i][j] == 'Q':
-            return False
-
-    # Check upper right diagonal
-    for i, j in zip(range(row-1, -1, -1), range(col+1, N)):
-        if board[i][j] == 'Q':
+    # Check diagonals
+    for i, j in enumerate(board):
+        if abs(j - col) == row - i:
             return False
 
     return True
 
 
 def solve_nqueens(N):
-    """solve"""
+    """solution"""
     if not isinstance(N, int):
         print("N must be a number")
         sys.exit(1)
@@ -33,27 +28,23 @@ def solve_nqueens(N):
         print("N must be at least 4")
         sys.exit(1)
 
-    board = [['.' for _ in range(N)] for _ in range(N)]
-    solutions = []
-
-    def backtrack(row):
+    def backtrack(row, board):
         """backtracking"""
         if row == N:
-            solutions.append([''.join(row) for row in board])
+            solutions.append(board[:])
             return
 
         for col in range(N):
             if is_safe(board, row, col, N):
-                board[row][col] = 'Q'
-                backtrack(row + 1)
-                board[row][col] = '.'
+                board.append(col)
+                backtrack(row + 1, board)
+                board.pop()
 
-    backtrack(0)
+    solutions = []
+    backtrack(0, [])
 
     for solution in solutions:
-        for line in solution:
-            print(line)
-        print()
+        print([[i, solution[i]] for i in range(N)])
 
 
 if __name__ == "__main__":
