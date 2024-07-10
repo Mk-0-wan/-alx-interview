@@ -29,7 +29,7 @@ request(URL, (error, response, body) => {
               reject(error);
             }
           });
-        }),
+        })
       );
     }
     // Taking all the iterable(Promises) and recording in the executing them in the same order
