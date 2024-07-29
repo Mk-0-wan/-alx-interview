@@ -15,7 +15,6 @@ def find_island_perimeter(grid) -> int:
         for x in range(width):
             if (grid[y][x] == 1):
                 no_of_islands += 1
-                print(f"Position of each island is grid[y({y}), x({x})]")
                 # check up
                 if (y - 1) >= 1 and grid[y - 1][x] == 1:
                     found_one += 1
