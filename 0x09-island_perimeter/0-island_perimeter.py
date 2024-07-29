@@ -2,7 +2,7 @@
 """Making a perimeter island finder"""
 
 
-def find_island_perimeter(grid) -> int:
+def island_perimeter(grid) -> int:
     # find the height and with of the grid
     # height will be same as the graph y axis
     height = len(grid)
