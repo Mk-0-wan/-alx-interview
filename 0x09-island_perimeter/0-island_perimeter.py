@@ -3,6 +3,7 @@
 
 
 def island_perimeter(grid) -> int:
+    """Calculate the area of island in the given grid"""
     # find the height and with of the grid
     # height will be same as the graph y axis
     height = len(grid)
