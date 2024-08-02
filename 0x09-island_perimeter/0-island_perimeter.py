@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 """Making a perimeter island finder"""
 
+
 def island_perimeter(grid) -> int:
     """Calculate the perimeter of the island in the given grid"""
     height = len(grid)
@@ -18,5 +19,4 @@ def island_perimeter(grid) -> int:
                 # Check left
                 if x > 0 and grid[y][x - 1] == 1:
                     perimeter -= 2
-    
     return perimeter
