@@ -1,10 +1,13 @@
 #!/usr/bin/python3
 
-# Game: Prime Game
-# Players: Maria and Ben
-# Rules: Players take turns choosing a prime
-# number and removing it and its multiples from the set
-# Winner: The player who cannot make a move loses
+"""
+Game: Prime Game
+Players: Maria and Ben
+Rules: Players take turns choosing a prime
+number and removing it and its multiples from the set
+Winner: The player who cannot make a move loses
+"""
+
 
 def isWinner(x, nums):
     """
