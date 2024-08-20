@@ -14,51 +14,55 @@ def isWinner(x, nums):
     Determines the winner of the Prime Game for multiple rounds.
     Args:
     x (int): The number of rounds to play
-    nums (list): A list of integers,
-        each representing the upper bound (n) for a round
-
+    nums (list): A list of integers, each representing
+        the upper bound (n) for a round
     Returns:
-    str or None: The name of the player who won the most
-        rounds, or None if it's a tie
+    str or None: The name of the player who won the most rounds,
+        or None if it's a tie
     """
 
-    def is_prime(n):
+    def sieve_of_eratosthenes(n):
         """
-        Checks if a number is prime.
+        Generates a list of prime numbers up to n using the
+            Sieve of Eratosthenes algorithm.
 
         Args:
-        n (int): The number to check
+        n (int): The upper bound of the range to check for primes
 
         Returns:
-        bool: True if n is prime, False otherwise
+        list: A boolean list where True indicates a prime number
         """
-        if n < 2:
-            return False
+        primes = [True] * (n + 1)
+        primes[0] = primes[1] = False
         for i in range(2, int(n**0.5) + 1):
-            if n % i == 0:
-                return False
-        return True
-
-    def play_game(n):
-        """
-        Simulates a single game and determines the winner.
-
-        Args:
-        n (int): The upper bound of the set of numbers for this game
-        Returns:
-        bool: True if Maria wins, False if Ben wins
-        """
-        # Count the number of primes up to n
-        primes = [i for i in range(2, n + 1) if is_prime(i)]
-        # Maria wins if the number of primes is odd (she goes first)
-        return len(primes) % 2 == 1
+            if primes[i]:
+                for j in range(i*i, n + 1, i):
+                    primes[j] = False
+        return primes
 
     # Validate input
     if not nums or x != len(nums):
         return None
 
-    # Count wins for Maria (Ben's wins = total games - Maria's wins)
-    maria_wins = sum(play_game(num) for num in nums)
+    # Find the maximum number in nums to determine
+    # the range for prime calculation
+    max_num = max(nums)
+
+    # Generate a list of primes up to max_num
+    is_prime = sieve_of_eratosthenes(max_num)
+
+    # Precompute the count of primes up to each number
+    prime_count = [0] * (max_num + 1)
+    for i in range(2, max_num + 1):
+        prime_count[i] = prime_count[i-1]
+        if is_prime[i]:
+            prime_count[i] += 1
+
+    # Count Maria's wins
+    # Maria wins a game if the count of primes up to n is odd
+    maria_wins = sum(prime_count[n] % 2 == 1 for n in nums)
+
+    # Calculate Ben's wins
     ben_wins = x - maria_wins
 
     # Determine the overall winner
