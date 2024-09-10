@@ -1,1 +1,0 @@
-## Island Parameter Logic
