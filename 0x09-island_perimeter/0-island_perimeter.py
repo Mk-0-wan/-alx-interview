@@ -15,12 +15,8 @@ def island_perimeter(grid) -> int:
                 perimeter += 4
                 # Check up
                 if y > 0 and grid[y - 1][x] == 1:
-                    print('hit')
-                    print(perimeter)
                     perimeter -= 2
                 # Check left
                 if x > 0 and grid[y][x - 1] == 1:
-                    print('hit')
-                    print(perimeter)
                     perimeter -= 2
     return perimeter
